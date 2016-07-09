@@ -34,6 +34,9 @@ function Logger(redisClient) {
         console.log('No failed message exists');
       } else {
         console.log("Failed messages: ");
+
+        let lastMessage = messages.pop();
+
         messages.forEach((message, index) => {
           process.stdout.write(message + ',');
           if ((index + 1) % 10 === 0) {
@@ -41,7 +44,7 @@ function Logger(redisClient) {
           }
         });
 
-        process.stdout.write("\n");
+        process.stdout.write(lastMessage + "\n");
 
       }
     }).catch(error => {

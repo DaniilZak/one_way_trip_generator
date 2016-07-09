@@ -2,11 +2,11 @@
 
 module.exports = {
   /**
-   * 
-   * @param {Array<number>} aruments
+   *
+   * @param {Array<number>} args
    * @returns {boolean}
    */
-  isGettingErrorMode: (aruments) => {
-    return aruments.indexOf('getErrors') !== -1;
+  isGettingErrorMode: (args) => {
+    return args.indexOf('getErrors') !== -1;
   }
 }

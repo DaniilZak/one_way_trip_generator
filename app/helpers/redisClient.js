@@ -1,8 +1,8 @@
 'use strict';
-var redis = require('promise-redis')();
-var config = require('../config/config');
-var clientListParser = require('./clientListParser');
-var connection = redis.createClient(config.redis);
+let redis = require('promise-redis')();
+let config = require('../config/config');
+let clientListParser = require('./clientListParser');
+let connection = redis.createClient(config.redis);
 
 function RedisClient() {
   this.messageQueue = 'messages';
@@ -15,7 +15,7 @@ function RedisClient() {
    */
   this.sendMessage = (message) => {
     return this.multi().rpush(this.messageQueue, message)
-      // rewrite messages expiration time on each push
+    // rewrite messages expiration time on each push
       .expire(this.messageQueue, this.queueExpirationTime)
       .exec();
   }
@@ -26,9 +26,7 @@ function RedisClient() {
 
   this.retrieveMessage = () => {
     return this.lpop(this.messageQueue).then(message => {
-      if (message === null) {
-        this.confirmGeneratorIsDown();
-      }
+      this.confirmGeneratorIsAlive();
 
       return message;
     });
@@ -40,7 +38,7 @@ function RedisClient() {
   this.retrieveFailedMessages = () => {
     return this.lrange(this.errorQueue, 0, -1).then(messages => {
       this.del(this.errorQueue);
-        return messages;
+      return messages;
     });
   }
 
@@ -52,7 +50,7 @@ function RedisClient() {
     });
   }
 
-  this.confirmGeneratorIsDown = () => {
+  this.confirmGeneratorIsAlive = () => {
     return this.checkGeneratorExistance().then((generatorExists) => {
       this.setConnectionName(generatorExists).then(() => {
         if (!generatorExists) {
@@ -83,16 +81,7 @@ function RedisClient() {
   };
 
   this.on('connect', this.initConnectionMode);
-
-  this.on('error', (error) => {
-    if (error.code == 'ETIMEDOUT' || error.code == 'ECONNREFUSED') {
-      console.log('Failed to connect to database');
-    }
-
-    console.log('Unexpected database error: ' + error);
-    process.exit();
-  });
-
+  
 }
 
 RedisClient.prototype = connection;

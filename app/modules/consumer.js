@@ -1,6 +1,6 @@
 'use strict';
-var logger = require('../helpers/logger').instance
-var redisClient = require('../helpers/redisClient').instance;
+let logger = require('../helpers/logger').instance
+let redisClient = require('../helpers/redisClient').instance;
 
 /**
  *

@@ -21,7 +21,7 @@ function Generator(redisClient, logger) {
   }
 
   this.pushMessageToQueue = () => {
-    var message = this.generateMessage();
+    let message = this.generateMessage();
     this.redisClient.sendMessage(message)
       .then(() => {
         console.log('Message sent: ' + message);
