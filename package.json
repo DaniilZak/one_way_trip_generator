@@ -1,0 +1,30 @@
+{
+  "name": "one_way_trip",
+  "version": "1.0.0",
+  "description": "Simple message generator",
+  "main": "app.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha ./tests",
+    "start": "node app.js"
+  },
+  "keywords": [
+    "test task",
+    "one way trip",
+    "message generator"
+  ],
+  "author": "Daniil Zakurenko",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "promise-redis": "0.0.5",
+    "redis": "^2.6.2",
+    "redis-promise": "^0.1.0",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "chai-spies": "^0.7.1",
+    "mocha": "^2.5.3"
+  }
+}
