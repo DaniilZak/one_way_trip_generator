@@ -13,6 +13,8 @@ function Generator(redisClient, logger) {
   this.redisClient = redisClient;
   this.intervalId = null;
   this.logger = logger;
+  //generator interval in milliseconds
+  this.interval = 500;
 
   this.generateMessage = () => {
     this.counter = this.counter || 0;
@@ -34,7 +36,7 @@ function Generator(redisClient, logger) {
   this.run = () => {
     this.intervalId = setInterval(() => {
       this.pushMessageToQueue();
-    }, 500);
+    }, this.interval);
 
     this.logger.info('Generator started on process: ' + process.pid);
   }
@@ -42,8 +44,9 @@ function Generator(redisClient, logger) {
   this.terminate = () => {
     if (this.intervalId != null) {
       clearInterval(this.intervalId);
-      this.intervalId = null;
     }
+
+    this.intervalId = null;
   }
 }
 

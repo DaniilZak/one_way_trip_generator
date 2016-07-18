@@ -28,12 +28,24 @@ if (argumentParser.isGettingErrorMode(process.argv)) {
 
   redisClient.on('generator_mode', () => {
     generator.run();
-    console.log('Generator started at process: ' + process.pid);
+    console.log(
+      'Generator started at process: '
+      + process.pid
+      + ' with interval: '
+      + generator.interval
+      + ' milisec'
+      );
   });
 
   redisClient.on('consumer_mode', () => {
     consumer.run();
-    console.log('Consumer started at process: ' + process.pid);
+    console.log(
+      'Consumer started at process: '
+        + process.pid
+        + ' with interval: '
+        + consumer.interval
+        + ' milisec'
+       );
   });
 
   redisClient.on('generator_down', () => {

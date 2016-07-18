@@ -43,6 +43,7 @@ function RedisClient() {
   }
 
   this.initConnectionMode = () => {
+    console.log('Starting connection to redis...');
     return this.checkGeneratorExistance().then((generatorExists) => {
       this.setConnectionName(generatorExists).then(() => {
         !generatorExists ? this.emit('generator_mode') : this.emit('consumer_mode');
@@ -81,7 +82,7 @@ function RedisClient() {
   };
 
   this.on('connect', this.initConnectionMode);
-  
+
 }
 
 RedisClient.prototype = connection;

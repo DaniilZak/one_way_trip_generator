@@ -12,11 +12,15 @@ function Consumer(redisClient, logger) {
   this.redisClient = redisClient;
   this.logger = logger;
   this.intervalId = null;
+  // receiving interval in miliseconds
+  this.interval = null;
 
   this.handleMessage = () => {
     return this.redisClient.retrieveMessage()
       .then(messge => {
         if (messge == null) {
+          console.log("No messges in queue at current moment");
+
           return messge;
         }
         if (this.isFailedMessage()) {
@@ -37,10 +41,17 @@ function Consumer(redisClient, logger) {
     return Math.random() > 0.85;
   }
 
+  this.generateInterval = () => {
+    this.interval = Math.random() * 1000;
+
+    return this.interval;
+  }
+
   this.run = () => {
+    let interval = this.generateInterval();
     this.intervalId = setInterval(() => {
       this.handleMessage();
-    }, Math.random() * 1000);
+    }, interval);
 
     this.logger.info('Consumer started on process: ' + process.pid);
 
@@ -52,6 +63,8 @@ function Consumer(redisClient, logger) {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
+
+    this.interval = null;
   }
 }
 
